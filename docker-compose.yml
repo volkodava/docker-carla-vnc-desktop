@@ -1,0 +1,12 @@
+version: '3.0'
+
+services:
+  carla:
+    build: .
+    image: anatoliiv/docker-carla-vnc-desktop:latest
+    container_name: carla_image_default
+    ports:
+      - "5900:5900"
+      - "2222:2222"
+    stdin_open: true
+    tty: true
