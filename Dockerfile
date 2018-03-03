@@ -107,13 +107,6 @@ RUN apt-get -y install \
     libmono-microsoft-build-tasks-v4.0-4.0-cil \
     clang-3.8
 
-ENV UE4_NAME=UnrealEngine_4.18
-ENV UE4_ROOT=${HOME}/${UE4_NAME}
-COPY ${UE4_NAME} ${UE4_ROOT}
-
-RUN git clone https://github.com/carla-simulator/carla.git carla-simulator
-ENV CARLA_SIMULATOR=${HOME}/carla-simulator
-
 RUN dpkg --configure -a \
     && apt-get install -f \
     && apt-get autoclean \
@@ -125,6 +118,13 @@ COPY supervisord.conf ${HOME}/
 
 EXPOSE ${SSH_PORT}
 EXPOSE ${VNC_PORT}
+
+ENV UE4_NAME=UnrealEngine_4.18
+ENV UE4_ROOT=${HOME}/${UE4_NAME}
+COPY ${UE4_NAME} ${UE4_ROOT}
+
+RUN git clone https://github.com/carla-simulator/carla.git carla-simulator
+ENV CARLA_SIMULATOR=${HOME}/carla-simulator
 
 RUN useradd -d ${HOME} -G adm,sudo,users -s /bin/bash build
 RUN echo 'build:build' | chpasswd
